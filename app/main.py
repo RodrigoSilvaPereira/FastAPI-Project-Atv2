@@ -1,14 +1,15 @@
 from fastapi import FastAPI
-from app.routes.students import router as students_router
+from app.routes.data_routes import router as api_router
 
-app = FastAPI(title="AT1 - FastAPI Demo")
+app = FastAPI(
+    title="Atividade 2 - FastAPI + Pytest",
+    description="API que consome dados externos e demonstra integração contínua.",
+    version="1.0.0",
+)
 
-app.include_router(students_router)
+app.include_router(api_router, prefix="/api", tags=["External Data"])
 
 
-@app.get("/")
-async def root():
-    return {
-        "message": """API rodando. Próximo passo: rotas de alunos.
-            /students/ping para verificar."""
-    }
+@app.get("/", tags=["Root"])
+def read_root():
+    return {"message": "API is running successfully 🚀"}
